@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>BFIT 행동재무학 투자 심리테스트</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg-beige: #f7f1e8;
+      --card-bg: #ffffff;
+      --deep-green: #184136;
+      --accent-green: #2c6b55;
+      --soft-border: #e0d5c5;
+      --text-main: #333333;
+      --text-sub: #666666;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #fdf7ee 0, #f4ece1 40%, #efe4d5 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 24px 20px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(24, 65, 54, 0.08);
+      color: var(--accent-green);
+      font-size: 12px;
+    }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-green);
+    }
+
+    h1 {
+      margin: 10px 0 6px;
+      font-size: 26px;
+      letter-spacing: -0.02em;
+      color: var(--deep-green);
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-sub);
+      margin-bottom: 18px;
+    }
+
+    .progress-wrap {
+      margin-bottom: 18px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+    }
+
+    .progress-bar {
+      position: relative;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: #e9dfd0;
+      overflow: hidden;
+    }
+
+    .progress-bar-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent-green), #9bbf7a);
+      transition: width 0.25s ease-out;
+    }
+
+    .question {
+      margin-top: 18px;
+      padding: 16px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--soft-border);
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .question-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: var(--deep-green);
+    }
+
+    .options {
+      display: grid;
+      gap: 8px;
+      margin-left: 2px;
+    }
+
+    label.option {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 9px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.05s ease;
+      font-size: 13px;
+    }
+
+    label.option:hover {
+      background: rgba(44, 107, 85, 0.06);
+      transform: translateY(-1px);
+    }
+
+    label.option input[type="radio"] {
+      margin-top: 3px;
+      accent-color: var(--accent-green);
+    }
+
+    .option-text {
+      flex: 1;
+    }
+
+    .option-key {
+      font-weight: 600;
+      margin-right: 4px;
+      color: var(--accent-green);
+    }
+
+    .btn-submit {
+      margin-top: 22px;
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      background: linear-gradient(135deg, var(--deep-green), var(--accent-green));
+      color: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 12px 22px rgba(24, 65, 54, 0.35);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.1s ease;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(24, 65, 54, 0.4);
+      opacity: 0.96;
+    }
+
+    .btn-submit:active {
+      transform: translateY(1px);
+      box-shadow: 0 8px 16px rgba(24, 65, 54, 0.3);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 11px;
+      color: var(--text-sub);
+      text-align: center;
+    }
+
+    .result-section {
+      display: none;
+    }
+
+    .result-section.active {
+      display: block;
+    }
+
+    .result-header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 2px solid var(--soft-border);
+      margin-bottom: 24px;
+    }
+
+    .result-type {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--deep-green);
+      margin-bottom: 8px;
+    }
+
+    .result-desc {
+      font-size: 16px;
+      color: var(--text-sub);
+    }
+
+    .score-grid {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .score-item {
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(24, 65, 54, 0.04);
+      border: 1px solid var(--soft-border);
+    }
+
+    .score-label {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+
+    .score-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+
+    .score-bar {
+      margin-top: 8px;
+      height: 8px;
+      background: #e9dfd0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-green), #9bbf7a);
+      border-radius: inherit;
+      transition: width 0.5s ease-out;
+    }
+
+    .advice-section {
+      margin-top: 24px;
+      padding: 20px;
+      background: rgba(155, 191, 122, 0.1);
+      border-radius: 12px;
+      border-left: 4px solid var(--accent-green);
+    }
+
+    .advice-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--deep-green);
+      margin-bottom: 12px;
+    }
+
+    .advice-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .advice-list li {
+      padding: 8px 0;
+      padding-left: 20px;
+      position: relative;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .advice-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .btn-restart {
+      margin-top: 24px;
+      width: 100%;
+      border: 2px solid var(--accent-green);
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-weight: 600;
+      background: transparent;
+      color: var(--accent-green);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-restart:hover {
+      background: var(--accent-green);
+      color: white;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 30px;
+      }
+      .card {
+        padding: 28px 26px;
+      }
+      .question {
+        padding: 16px 18px;
+      }
+      .score-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <header>
+        <div class="badge">
+          <div class="logo-dot"></div>
+          BFIT · Behavioral Finance Investor Test
+        </div>
+        <h1>행동재무학 기반 투자 심리테스트</h1>
+        <div class="subtitle">
+          18문항으로 <b>리스크 성향 · 손실 회피 · 과신 편향</b>을 한 번에 진단합니다.
+        </div>
+      </header>
+
+      <!-- 테스트 섹션 -->
+      <div id="testSection">
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>진행 상황</span>
+            <span id="progressText">0 / 18</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-bar-inner" id="progressBar"></div>
+          </div>
+        </div>
+
+        <form id="testForm">
+          <!-- 1 -->
+          <div class="question">
+            <div class="question-title">1. -15% 손실이 난 종목, 당신의 반응은?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q1" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 비중 확대(추가 매수)</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q1" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 홀딩 후 추가 분석</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q1" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 조금 줄이고 리스크 축소</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q1" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 즉시 손절</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 2 -->
+          <div class="question">
+            <div class="question-title">2. 1천만 원을 투자한다면, 어떤 포트폴리오를 선호하나요?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q2" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 성장주 높은 비중 (70% 이상)</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q2" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 성장주와 가치주를 반반</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q2" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 배당·가치주 중심</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q2" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 현금·채권 등 안전자산 위주</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div class="question">
+            <div class="question-title">3. 어느 종목에서 +40% 수익이 났을 때, 당신은?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q3" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 계속 보유한다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q3" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 절반 익절, 나머지는 계속 보유.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q3" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 대부분 익절한다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q3" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 즉시 전량 익절한다.</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div class="question">
+            <div class="question-title">4. 손실 구간인 종목을 매도하려 할 때, 어떤 감정이 더 강한가요?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q4" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> "더 떨어지기 전에 팔아야 한다."</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q4" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> "조금만 회복하면 팔겠다."</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q4" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> "손실을 확정하고 싶지 않다."</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q4" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> "언젠가 오를 거다."</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div class="question">
+            <div class="question-title">5. 시장이 급락했을 때, 당신의 첫 반응은?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q5" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 기회다! 물타기 또는 신규 매수</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q5" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 일단 관망하며 추가 하락 여부를 본다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q5" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 일부 비중을 줄인다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q5" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 즉시 현금화한다.</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 6 -->
+          <div class="question">
+            <div class="question-title">6. 내 투자 실력에 대한 자신감은?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q6" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 시장 평균보다 훨씬 잘할 자신 있다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q6" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 평균보다 조금 나을 것 같다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q6" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 시장 평균 정도만 따라가도 만족한다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q6" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 내 실력을 잘 모르겠다.</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 7 -->
+          <div class="question">
+            <div class="question-title">7. 종목 분석 시, 어떤 방식을 선호하나요?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q7" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 내 직감과 경험을 믿는다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q7" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 뉴스와 커뮤니티 의견 참고</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q7" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 재무제표와 데이터 분석</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q7" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 전문가 의견과 리포트</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 8 -->
+          <div class="question">
+            <div class="question-title">8. 작년 투자 수익률은?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q8" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> +30% 이상</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q8" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> +10% ~ +30%</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q8" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> -10% ~ +10%</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q8" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> -10% 이하 또는 투자 안 함</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 9 -->
+          <div class="question">
+            <div class="question-title">9. 전체 자산 중 주식 비중은?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q9" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 70% 이상</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q9" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 50~70%</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q9" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 30~50%</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q9" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 30% 미만</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 10 -->
+          <div class="question">
+            <div class="question-title">10. 투자 결정 후 결과가 나쁘면?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q10" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 운이 나빴을 뿐, 내 판단은 옳았다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q10" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 분석을 다시 해본다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q10" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 내 판단 실수를 인정한다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q10" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 외부 요인 탓으로 돌린다.</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 11 -->
+          <div class="question">
+            <div class="question-title">11. 매수 후 곧바로 -5% 하락한다면?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q11" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 전혀 신경 안 쓴다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q11" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 조금 불안하지만 기다린다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q11" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 상당히 불안해진다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q11" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 즉시 매도를 고려한다.</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 12 -->
+          <div class="question">
+            <div class="question-title">12. 친구가 추천한 종목, 어떻게 하나요?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q12" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 바로 매수한다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q12" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 간단히 확인 후 매수</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q12" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 철저히 분석 후 결정</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q12" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 타인 추천은 믿지 않는다.</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 13 -->
+          <div class="question">
+            <div class="question-title">13. 포트폴리오에 몇 개 종목을 보유하나요?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q13" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 1~3개 (집중투자)</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q13" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 4~7개</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q13" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 8~15개</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q13" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 16개 이상 (분산투자)</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 14 -->
+          <div class="question">
+            <div class="question-title">14. 뉴스에서 "경기침체 우려"가 나오면?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q14" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 오히려 저가 매수 기회다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q14" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 신중하게 지켜본다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q14" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 비중을 줄인다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q14" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 전부 현금화한다.</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 15 -->
+          <div class="question">
+            <div class="question-title">15. 내가 산 종목이 하루 만에 +20% 급등하면?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q15" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 내 안목이 맞았구나!</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q15" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 기쁘지만 왜 올랐는지 확인한다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q15" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 일부 익절을 고려한다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q15" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 불안해서 전량 익절한다.</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 16 -->
+          <div class="question">
+            <div class="question-title">16. 내 투자 전략은?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q16" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 단기 매매로 빠르게 수익</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q16" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 중기 (3개월~1년)</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q16" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 장기 (1년 이상)</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q16" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 전략 없이 상황에 따라</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 17 -->
+          <div class="question">
+            <div class="question-title">17. 과거 투자 실패 경험이 있나요?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q17" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 거의 없다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q17" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 몇 번 있지만 배웠다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q17" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 여러 번 있고 조심스럽다.</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q17" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 많아서 트라우마가 있다.</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 18 -->
+          <div class="question">
+            <div class="question-title">18. 투자에서 가장 중요한 것은?</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q18" value="A" />
+                <div class="option-text"><span class="option-key">A.</span> 높은 수익률</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q18" value="B" />
+                <div class="option-text"><span class="option-key">B.</span> 리스크 관리</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q18" value="C" />
+                <div class="option-text"><span class="option-key">C.</span> 안정적인 수익</div>
+              </label>
+              <label class="option">
+                <input type="radio" name="q18" value="D" />
+                <div class="option-text"><span class="option-key">D.</span> 원금 보존</div>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn" disabled>
+            결과 보기
+          </button>
+        </form>
+
+        <div class="footer-note">
+          * 본 테스트는 행동재무학 이론을 기반으로 설계되었으며, 투자 권유가 아닙니다.
+        </div>
+      </div>
+
+      <!-- 결과 섹션 -->
+      <div id="resultSection" class="result-section">
+        <div class="result-header">
+          <div class="result-type" id="resultType"></div>
+          <div class="result-desc" id="resultDesc"></div>
+        </div>
+
+        <div class="score-grid">
+          <div class="score-item">
+            <div class="score-label">리스크 성향</div>
+            <div class="score-value" id="riskScore">0점</div>
+            <div class="score-bar">
+              <div class="score-bar-fill" id="riskBar"></div>
+            </div>
+          </div>
+          <div class="score-item">
+            <div class="score-label">손실 회피</div>
+            <div class="score-value" id="lossScore">0점</div>
+            <div class="score-bar">
+              <div class="score-bar-fill" id="lossBar"></div>
+            </div>
+          </div>
+          <div class="score-item">
+            <div class="score-label">과신 편향</div>
+            <div class="score-value" id="biasScore">0점</div>
+            <div class="score-bar">
+              <div class="score-bar-fill" id="biasBar"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="advice-section">
+          <div class="advice-title">💡 투자 조언</div>
+          <ul class="advice-list" id="adviceList"></ul>
+        </div>
+
+        <button class="btn-restart" id="restartBtn">다시 테스트하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('testForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const testSection = document.getElementById('testSection');
+    const resultSection = document.getElementById('resultSection');
+    const restartBtn = document.getElementById('restartBtn');
+
+    const totalQuestions = 18;
+
+    // 진행률 업데이트
+    function updateProgress() {
+      let answered = 0;
+      for (let i = 1; i <= totalQuestions; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) answered++;
+      }
+      
+      const percentage = (answered / totalQuestions) * 100;
+      progressBar.style.width = percentage + '%';
+      progressText.textContent = `${answered} / ${totalQuestions}`;
+      
+      submitBtn.disabled = answered < totalQuestions;
+    }
+
+    // 모든 라디오 버튼에 이벤트 리스너 추가
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', updateProgress);
+    });
+
+    // 결과 계산 로직
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const answers = {};
+      for (let i = 1; i <= totalQuestions; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        answers[`q${i}`] = selected ? selected.value : null;
+      }
+
+      // 점수 계산
+      const scores = calculateScores(answers);
+      displayResults(scores);
+      
+      // 화면 전환
+      testSection.style.display = 'none';
+      resultSection.classList.add('active');
+      window.scrollTo(0, 0);
+    });
+
+    function calculateScores(answers) {
+      // 리스크 성향 점수 (Q1, Q2, Q5, Q9, Q13, Q16)
+      const riskMapping = { A: 4, B: 3, C: 2, D: 1 };
+      let riskScore = 0;
+      const riskQuestions = ['q1', 'q2', 'q5', 'q9', 'q13', 'q16'];
+      riskQuestions.forEach(q => {
+        if (answers[q]) riskScore += riskMapping[answers[q]];
+      });
+
+      // 손실 회피 점수 (Q3, Q4, Q11, Q14, Q17, Q18)
+      const lossMapping = { A: 1, B: 2, C: 3, D: 4 };
+      let lossScore = 0;
+      const lossQuestions = ['q3', 'q4', 'q11', 'q14', 'q17', 'q18'];
+      lossQuestions.forEach(q => {
+        if (answers[q]) lossScore += lossMapping[answers[q]];
+      });
+
+      // 과신 편향 점수 (Q6, Q7, Q8, Q10, Q12, Q15)
+      const biasMapping = { A: 4, B: 3, C: 2, D: 1 };
+      let biasScore = 0;
+      const biasQuestions = ['q6', 'q7', 'q8', 'q10', 'q12', 'q15'];
+      biasQuestions.forEach(q => {
+        if (answers[q]) biasScore += biasMapping[answers[q]];
+      });
+
+      return {
+        risk: riskScore,
+        loss: lossScore,
+        bias: biasScore
+      };
+    }
+
+    function displayResults(scores) {
+      // 유형 결정
+      let type = '';
+      let desc = '';
+      let advice = [];
+
+      if (scores.risk >= 20 && scores.bias >= 20) {
+        type = '공격형 투자자';
+        desc = '높은 리스크를 감수하며 자신의 판단을 신뢰하는 유형';
+        advice = [
+          '과도한 자신감은 큰 손실로 이어질 수 있습니다. 분산투자를 고려하세요.',
+          '감정적 결정보다 데이터 기반 분석을 우선하세요.',
+          '손절 라인을 미리 정하고 반드시 지키세요.'
+        ];
+      } else if (scores.risk >= 20 && scores.bias < 20) {
+        type = '적극형 투자자';
+        desc = '리스크를 감수하되 신중한 분석을 병행하는 유형';
+        advice = [
+          '리스크 관리 전략을 더욱 체계화하세요.',
+          '포트폴리오의 20-30%는 안전자산으로 구성하세요.',
+          '시장 변동성에 대비한 현금 비중을 유지하세요.'
+        ];
+      } else if (scores.loss >= 20 && scores.risk < 15) {
+        type = '보수형 투자자';
+        desc = '손실을 극도로 회피하며 안정성을 최우선으로 하는 유형';
+        advice = [
+          '과도한 손실 회피는 기회를 놓칠 수 있습니다.',
+          '장기 투자 관점에서 일시적 변동성을 받아들이세요.',
+          '배당주나 가치주 중심의 포트폴리오를 고려하세요.'
+        ];
+      } else if (scores.risk >= 15 && scores.loss >= 15 && scores.bias < 18) {
+        type = '균형형 투자자';
+        desc = '리스크와 안정성의 균형을 추구하는 이상적인 유형';
+        advice = [
+          '현재의 균형 잡힌 접근을 유지하세요.',
+          '정기적인 포트폴리오 리밸런싱을 실천하세요.',
+          '감정적 결정을 피하고 투자 원칙을 지키세요.'
+        ];
+      } else if (scores.bias >= 20) {
+        type = '과신형 투자자';
+        desc = '자신의 판단력을 과대평가하는 경향이 있는 유형';
+        advice = [
+          '투자 일지를 작성하여 의사결정 과정을 객관적으로 검토하세요.',
+          '반대 의견에도 귀를 기울이고 다양한 시각을 고려하세요.',
+          '전문가 자문이나 자동화된 투자 전략을 활용하세요.'
+        ];
+      } else {
+        type = '신중형 투자자';
+        desc = '조심스럽고 분석적인 접근을 선호하는 유형';
+        advice = [
+          '지나친 신중함은 기회 비용을 발생시킬 수 있습니다.',
+          '소액부터 시작하여 투자 경험을 쌓으세요.',
+          '장기 투자 관점에서 시장 변동성을 수용하세요.'
+        ];
+      }
+
+      // 결과 표시
+      document.getElementById('resultType').textContent = type;
+      document.getElementById('resultDesc').textContent = desc;
+
+      document.getElementById('riskScore').textContent = scores.risk + '점';
+      document.getElementById('lossScore').textContent = scores.loss + '점';
+      document.getElementById('biasScore').textContent = scores.bias + '점';
+
+      // 점수 바 애니메이션
+      setTimeout(() => {
+        document.getElementById('riskBar').style.width = (scores.risk / 24 * 100) + '%';
+        document.getElementById('lossBar').style.width = (scores.loss / 24 * 100) + '%';
+        document.getElementById('biasBar').style.width = (scores.bias / 24 * 100) + '%';
+      }, 100);
+
+      // 조언 표시
+      const adviceList = document.getElementById('adviceList');
+      adviceList.innerHTML = '';
+      advice.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        adviceList.appendChild(li);
+      });
+    }
+
+    // 다시 시작
+    restartBtn.addEventListener('click', function() {
+      form.reset();
+      updateProgress();
+      testSection.style.display = 'block';
+      resultSection.classList.remove('active');
+      window.scrollTo(0, 0);
+    });
+
+    // 초기 진행률 업데이트
+    updateProgress();
+  </script>
+</body>
+</html>
